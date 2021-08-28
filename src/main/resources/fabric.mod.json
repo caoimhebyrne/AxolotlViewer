@@ -3,12 +3,12 @@
   "id": "axolotlviewer",
   "version": "${version}",
   "name": "AxolotlViewer",
-  "description": "Adds the colour of the axolotl to the bucket's tooltip",
+  "description": "Makes it easier to see what type of axolotl is in your inventory",
   "authors": [
     "Conor Byrne"
   ],
   "contact": {
-    "website": "https://cbyrne.dev",
+    "website": "https://modrinth.com/mod/axolotlviewer",
     "repo": "https://github.com/cbyrneee/AxolotlViewer"
   },
   "license": "MIT",
