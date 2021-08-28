@@ -4,7 +4,9 @@
   "package": "dev.cbyrne.axolotlviewer.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "EntityBucketItemMixin"
+    "EntityBucketItemMixin",
+    "ItemRendererMixin",
+    "accessor.EntityBucketItemAccessor"
   ],
   "client": [
   ],
