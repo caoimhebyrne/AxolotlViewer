@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "axolotlviewer",
+  "version": "${version}",
+  "name": "AxolotlViewer",
+  "description": "Adds the colour of the axolotl to the bucket's tooltip",
+  "authors": [
+    "Conor Byrne"
+  ],
+  "contact": {
+    "website": "https://cbyrne.dev",
+    "repo": "https://github.com/cbyrneee/AxolotlViewer"
+  },
+  "license": "MIT",
+  "icon": "assets/axolotlviewer/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "dev.cbyrne.axolotlviewer.AxolotlViewer"
+    ]
+  },
+  "mixins": [
+    "AxolotlViewer.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.6",
+    "minecraft": "1.17.1"
+  }
+}
