@@ -3,25 +3,38 @@ package dev.cbyrne.axolotlviewer.mixin;
 import dev.cbyrne.axolotlviewer.AxolotlViewer;
 import dev.cbyrne.axolotlviewer.mixin.accessor.EntityBucketItemAccessor;
 import net.minecraft.client.render.item.ItemModels;
-import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AxolotlEntity;
 import net.minecraft.item.EntityBucketItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(ItemRenderer.class)
-public abstract class ItemRendererMixin {
-    @Redirect(method = "getHeldItemModel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemModels;getModel(Lnet/minecraft/item/ItemStack;)Lnet/minecraft/client/render/model/BakedModel;"))
-    private BakedModel redirectGetModel(ItemModels itemModels, ItemStack stack) {
+@Mixin(ItemModels.class)
+public abstract class ItemModelsMixin {
+    @Shadow
+    @Nullable
+    public abstract BakedModel getModel(Item item);
+
+    @Inject(
+        method = "getModel(Lnet/minecraft/item/ItemStack;)Lnet/minecraft/client/render/model/BakedModel;",
+        at = @At(value = "HEAD"),
+        cancellable = true
+    )
+    private void changeItemModelOnAxolotlBucket(ItemStack stack, CallbackInfoReturnable<BakedModel> cir) {
         if (!(stack.getItem() instanceof EntityBucketItem bucketItem) || ((EntityBucketItemAccessor) bucketItem).getEntityType() != EntityType.AXOLOTL)
-            return itemModels.getModel(stack);
+            return;
 
         var nbtCompound = stack.getNbt();
-        if (nbtCompound == null || !nbtCompound.contains("Variant")) return itemModels.getModel(stack);
+        if (nbtCompound == null || !nbtCompound.contains("Variant")) {
+            return;
+        }
 
         var variant = nbtCompound.getInt("Variant");
         var item = switch (AxolotlEntity.Variant.VARIANTS[variant]) {
@@ -32,6 +45,6 @@ public abstract class ItemRendererMixin {
             default -> stack.getItem();
         };
 
-        return itemModels.getModel(item);
+        cir.setReturnValue(getModel(item));
     }
 }

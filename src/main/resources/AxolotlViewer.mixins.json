@@ -5,7 +5,7 @@
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "EntityBucketItemMixin",
-    "ItemRendererMixin",
+    "ItemModelsMixin",
     "accessor.EntityBucketItemAccessor"
   ],
   "client": [
