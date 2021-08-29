@@ -4,6 +4,7 @@ import dev.cbyrne.axolotlviewer.AxolotlViewer;
 import dev.cbyrne.axolotlviewer.mixin.accessor.EntityBucketItemAccessor;
 import net.minecraft.client.render.item.ItemModels;
 import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.render.model.BakedModelManager;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AxolotlEntity;
 import net.minecraft.item.EntityBucketItem;
@@ -22,6 +23,9 @@ public abstract class ItemModelsMixin {
     @Nullable
     public abstract BakedModel getModel(Item item);
 
+    @Shadow
+    public abstract BakedModelManager getModelManager();
+
     @Inject(
         method = "getModel(Lnet/minecraft/item/ItemStack;)Lnet/minecraft/client/render/model/BakedModel;",
         at = @At(value = "HEAD"),
@@ -37,14 +41,15 @@ public abstract class ItemModelsMixin {
         }
 
         var variant = nbtCompound.getInt("Variant");
-        var item = switch (AxolotlEntity.Variant.VARIANTS[variant]) {
-            case WILD -> AxolotlViewer.FAKE_WILD_BUCKET;
-            case GOLD -> AxolotlViewer.FAKE_GOLD_BUCKET;
-            case CYAN -> AxolotlViewer.FAKE_CYAN_BUCKET;
-            case BLUE -> AxolotlViewer.FAKE_BLUE_BUCKET;
-            default -> stack.getItem();
+        var manager = getModelManager();
+        var model = switch (AxolotlEntity.Variant.VARIANTS[variant]) {
+            case WILD -> manager.getModel(AxolotlViewer.getModelIdentifier("wild"));
+            case GOLD -> manager.getModel(AxolotlViewer.getModelIdentifier("gold"));
+            case CYAN -> manager.getModel(AxolotlViewer.getModelIdentifier("cyan"));
+            case BLUE -> manager.getModel(AxolotlViewer.getModelIdentifier("blue"));
+            default -> getModel(stack.getItem());
         };
 
-        cir.setReturnValue(getModel(item));
+        cir.setReturnValue(model);
     }
 }

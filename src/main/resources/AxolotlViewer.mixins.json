@@ -6,6 +6,7 @@
   "mixins": [
     "EntityBucketItemMixin",
     "ItemModelsMixin",
+    "ModelLoaderMixin",
     "accessor.EntityBucketItemAccessor"
   ],
   "client": [

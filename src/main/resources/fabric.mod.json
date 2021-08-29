@@ -15,7 +15,7 @@
   "icon": "assets/axolotlviewer/icon.png",
   "environment": "client",
   "entrypoints": {
-    "main": [
+    "client": [
       "dev.cbyrne.axolotlviewer.AxolotlViewer"
     ]
   },
