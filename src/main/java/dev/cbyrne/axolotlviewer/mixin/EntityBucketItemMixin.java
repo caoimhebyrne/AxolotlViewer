@@ -5,6 +5,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AxolotlEntity;
 import net.minecraft.item.EntityBucketItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
@@ -20,6 +21,10 @@ import java.util.List;
 
 @Mixin(EntityBucketItem.class)
 public class EntityBucketItemMixin {
+    private final Style axolotlViewer$variantStyle = Style.EMPTY
+        .withItalic(true)
+        .withColor(Formatting.GRAY);
+
     @Shadow
     @Final
     private EntityType<?> entityType;
@@ -36,7 +41,8 @@ public class EntityBucketItemMixin {
                 case "wild" -> variant = variant + " (Brown)";
             }
 
-            tooltip.add(Text.of(StringUtils.capitalize(variant)).shallowCopy().formatted(Formatting.ITALIC, Formatting.GRAY));
+            var tooltipText = Text.of(StringUtils.capitalize(variant)).getWithStyle(axolotlViewer$variantStyle);
+            tooltip.addAll(tooltipText);
         }
     }
 }
