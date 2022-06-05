@@ -9,6 +9,10 @@ It adds the colour of the axolotl to the bucket's tooltip, and also changes the 
 
 Get the latest download from the [releases page](https://github.com/cbyrneee/AxolotlViewer/releases).
 
+## Discord
+
+[<img src="https://inv.wtf/widget/cbyrne" width="500" alt="Discord Widget"/>](https://inv.wtf/cbyrne)
+
 ## Notes 
 To modify the coloured bucket texture, you need to change ``assets/axolotlviewer/textures/item/axolotl_bucket_[x].png``
 
